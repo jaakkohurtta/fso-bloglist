@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
-// const logger = require("../utils/logger")
+const logger = require("../../server/utils/logger");
 const app = require("../../app");
 const api = supertest(app);
 const Blog = require("../../server/models/blog");
@@ -76,7 +76,7 @@ describe("when posting a new blog", () => {
   });
 
   test("add new blog to db", async () => {
-    // logger.info(testUserToken)
+    logger.info(testUserToken);
 
     await api.post("/api/blogs").set("Authorization", `bearer ${testUserToken}`).send(dummyBlog);
     const response = await api.get("/api/blogs");
