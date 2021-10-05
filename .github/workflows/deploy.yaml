@@ -14,14 +14,12 @@ jobs:
         run: npm ci
       - name: lint
         run: npm run lint
-      - name: npm run server:test
-        uses: BerniWittmann/background-server-action@v1.0.4
+      - name: npm run test
         env:
           TEST_MOBGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-        with:
-          command: npm run test
-          start: npm run server:test
-          wait-on: http://localhost:3002
+        run: |
+          npm run server:test &
+          npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
