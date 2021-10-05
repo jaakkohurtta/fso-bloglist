@@ -14,11 +14,13 @@ jobs:
         run: npm install
       - name: lint
         run: npm run lint
-      - name: npm run test
+      - name: test
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           COOKBOOK_DRAFT: ${{ secrets.COOKBOOK_DRAFT }}
         run: npm run test
+      - name: build
+        run: npm run build
       - name: e2e tests
         uses: cypress-io/github-action@v2
         env:
@@ -26,7 +28,7 @@ jobs:
           COOKBOOK_DRAFT: ${{ secrets.COOKBOOK_DRAFT }}
         with:
           command: npm run test:e2e
-          start: npm run start
+          start: npm run start:test
           wait-on: http://localhost:3001
   build-and-deploy:
     needs: test-runner
