@@ -25,7 +25,6 @@ jobs:
           command: npm run test:e2e
           start: npm run start
           wait-on: http://localhost:3001
-
   build-and-deploy:
     needs: test-runner
     runs-on: ubuntu-18.04
