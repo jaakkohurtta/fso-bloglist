@@ -111,20 +111,6 @@ describe("when deleting a blog from db", () => {
 
 // PUT test
 describe("when updating a blog", () => {
-  let testUserToken;
-
-  beforeEach(async () => {
-    const testUser = {
-      username: "test_user",
-      name: "Test User",
-      password: "test123",
-    };
-
-    await api.post("/api/users").send(testUser);
-    const result = await api.post("/api/login").send({ username: "root", password: "lolbur" });
-    testUserToken = result.body.token;
-  });
-
   test("return matches request", async () => {
     // get id to be updated
     const blog = await Blog.findOne();
