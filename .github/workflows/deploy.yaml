@@ -17,7 +17,7 @@ jobs:
       - name: mongodb setup
         uses: supercharge/mongodb-github-action@1.6.0
         with:
-          mongodb-port: 3002
+          mongodb-port: 3001
       - name: npm run test
         run: npm run test
       - name: e2e tests
