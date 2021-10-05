@@ -45,7 +45,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 
 app.get("/health", (req, res) => {
-  res.send("ok");
+  res.status(200).send("ok");
 });
 
 app.get("/version", (req, res) => {

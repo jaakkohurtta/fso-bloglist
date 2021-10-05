@@ -29,7 +29,8 @@ jobs:
         with:
           command: npm run test:e2e
           start: npm run server:test
-          wait-on: http://localhost:3001
+          wait-on: "http://localhost:3001/health"
+          wait-on-timeout: 120
   build-and-deploy:
     needs: test-runner
     runs-on: ubuntu-18.04
