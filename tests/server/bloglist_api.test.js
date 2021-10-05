@@ -16,30 +16,37 @@ const {
 
 // variable to store test user token in
 let testUserToken;
+const testUser = {
+  username: "test_user",
+  name: "Test User",
+  password: "test123",
+};
 
 // create and log in a user for testing purposes
-beforeAll(async () => {
-  await User.deleteMany({});
-
-  const testUser = {
-    username: "test_user",
-    name: "Test User",
-    password: "test123",
-  };
-
-  const newUser = await api.post("/api/users").send(testUser);
-
-  const loggedUser = await api.post("/api/login").send({ username: testUser.username, password: testUser.password });
-  logger.info("token", loggedUser.body.token);
-  logger.info("id", loggedUser.body.id);
-
-  testUserToken = loggedUser.body.token;
-
-  // add user id to dummy blogs
-  dummyBlogs.forEach((blog) => {
-    blog.userId = newUser.body.id;
+beforeAll(() => {
+  User.deleteMany({}).then(() => {
+    api
+      .post("/api/users")
+      .send(testUser)
+      .then((res) => {
+        dummyBlogs.forEach((blog) => {
+          blog.userId = res.body.id;
+        });
+        api
+          .post("/api/login")
+          .send({ username: testUser.username, password: testUser.password })
+          .then((res) => {
+            console.log(res.body);
+            testUserToken = res.body.token;
+          });
+      });
   });
 });
+
+//  const newUser = await api.post("/api/users").send(testUser);
+
+// add user id to dummy blogs
+// });
 
 // insert blogs to db with test user before each test
 beforeEach(async () => {
