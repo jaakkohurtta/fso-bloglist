@@ -1,15 +1,15 @@
-name: Seek and deploy
+name: CI/CD
 
 on: workflow_dispatch
 
 jobs:
-  test-runner:
+  seek-and-deploy:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: "14.x"
       - name: npm install
         run: npm install
       - name: lint
@@ -31,19 +31,8 @@ jobs:
           start: npm run server:test
           wait-on: "http://localhost:3001"
           wait-on-timeout: 120
-  build-and-deploy:
-    needs: test-runner
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "14.x"
-      - name: npm install
-        run: npm install
-      - name: build
-        run: npm run build
-      - name: Deploy to Heroku
+      - name: deploy to heroku
+        if: ${{ !contains(github.event.head_commit.message, "#skip" )}}
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -52,3 +41,12 @@ jobs:
           healthcheck: "https://stormy-shore-69938.herokuapp.com/health"
           delay: 1
           rollbackonhealthcheckfailed: true
+      - uses: actions/checkout@v2
+      - name: bump version and push tag
+        if: ${{ !contains(github.event.head_commit.message, "#skip") }}
+        uses: anothrNick/github-tag-action@1.33.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
+          INITIAL_VERSION: 1.0.0
