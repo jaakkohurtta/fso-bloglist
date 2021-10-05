@@ -25,7 +25,7 @@ jobs:
           command: npm run test:e2e
           start: npm run start
           wait-on: http://localhost:3001
-          
+
   build-and-deploy:
     needs: test-runner
     runs-on: ubuntu-18.04
@@ -35,9 +35,10 @@ jobs:
         with:
           node-version: "16.x"
       - name: build
-        run: npm run build      
+        run: npm run build
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "stormy-shore-69938"
           heroku_email: jaakko.hurtta@outlook.com
