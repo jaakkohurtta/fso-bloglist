@@ -40,6 +40,14 @@ app.use("/api/blogs", middleware.userExtractor, blogsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 
+app.get("/health", (req, res) => {
+  res.send("ok");
+});
+
+app.get("/version", (req, res) => {
+  res.send("v1.0.0");
+});
+
 // eslint-disable-next-line no-undef
 if (process.env.NODE_ENV === "test") {
   const testingRouter = require("./server/controllers/testing");

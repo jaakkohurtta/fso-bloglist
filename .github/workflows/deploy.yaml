@@ -1,0 +1,34 @@
+name: Seek and deploy
+
+on: workflow_dispatch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - name: npm ci
+        run: npm ci
+      - name: lint
+        run: npm run lint
+      - name: test
+        run: npm run test
+      - name: build
+        run: npm run build
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start
+          wait-on: http://localhost:3001
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "stormy-shore-69938"
+          heroku_email: jaakko.hurtta@outlook.com
+          healthcheck: "https://agile-thicket-54021.herokuapp.com/health"
+          delay: 1
+          rollbackonhealthcheckfailed: true
