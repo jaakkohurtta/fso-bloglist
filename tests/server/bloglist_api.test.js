@@ -56,7 +56,7 @@ describe("when posting a new blog", () => {
     };
 
     await api.post("/api/users").send(testUser);
-    const result = await api.post("/api/login").send(testUser);
+    const result = await api.post("/api/login").send({ username: "root", password: "lolbur" });
     testUserToken = result.body.token;
   });
 
@@ -110,7 +110,7 @@ describe("when deleting a blog from db", () => {
     };
 
     await api.post("/api/users").send(testUser);
-    const result = await api.post("/api/login").send(testUser);
+    const result = await api.post("/api/login").send({ username: "root", password: "lolbur" });
     testUserToken = result.body.token;
 
     newblog = await api.post("/api/blogs").set("Authorization", `bearer ${testUserToken}`).send(testBlog);
@@ -144,7 +144,7 @@ describe("when updating a blog", () => {
     };
 
     await api.post("/api/users").send(testUser);
-    const result = await api.post("/api/login").send(testUser);
+    const result = await api.post("/api/login").send({ username: "root", password: "lolbur" });
     testUserToken = result.body.token;
   });
 
