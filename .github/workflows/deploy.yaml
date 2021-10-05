@@ -14,13 +14,12 @@ jobs:
         run: npm ci
       - name: lint
         run: npm run lint
-      - name: npm run test
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-        run: npm run test
+      - name: mongodb setup
+        uses: supercharge/mongodb-github-action@1.6.0
         with:
-          start: npm run server:test
-          wait-on: http://localhost:3002
+          mongodb-port: 3002
+      - name: npm run test
+        run: npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
