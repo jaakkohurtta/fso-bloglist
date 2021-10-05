@@ -10,14 +10,14 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "16.x"
-      - name: npm ci
-        run: npm ci
-      - name: lint
-        run: npm run lint
       - name: mongodb setup
         uses: supercharge/mongodb-github-action@1.6.0
         with:
           mongodb-port: 3001
+      - name: npm ci
+        run: npm ci
+      - name: lint
+        run: npm run lint
       - name: npm run test
         run: npm run test
       - name: e2e tests
