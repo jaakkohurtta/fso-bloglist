@@ -26,6 +26,7 @@ jobs:
           wait-on: http://localhost:3001
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "stormy-shore-69938"
           heroku_email: jaakko.hurtta@outlook.com
