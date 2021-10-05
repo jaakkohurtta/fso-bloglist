@@ -10,16 +10,18 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "16.x"
-      - name: mongodb setup
-        uses: supercharge/mongodb-github-action@1.6.0
-        with:
-          mongodb-port: 3001
       - name: npm ci
         run: npm ci
       - name: lint
         run: npm run lint
-      - name: npm run test
-        run: npm run test
+      - name: npm run server:test
+        uses: BerniWittmann/background-server-action@v1.0.4
+        env:
+          TEST_MOBGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+        with:
+          command: npm run test
+          start: npm run server:test
+          wait-on: http://localhost:3002
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
