@@ -28,7 +28,7 @@ jobs:
           COOKBOOK_DRAFT: ${{ secrets.COOKBOOK_DRAFT }}
         with:
           command: npm run test:e2e
-          start: npm start
+          start: npm run server:test
           wait-on: http://localhost:3001
   build-and-deploy:
     needs: test-runner
