@@ -14,7 +14,6 @@ jobs:
         run: npm ci
       - name: npm run server:test
         run: npm run server:test
-        sleep: 6
       - name: lint
         run: npm run lint
       - name: test
