@@ -10,17 +10,20 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "16.x"
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          COOKBOOK_DRAFT: ${{ secrets.COOKBOOK_DRAFT }}
       - name: npm install
         run: npm install
       - name: lint
         run: npm run lint
       - name: npm run test
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          COOKBOOK_DRAFT: ${{ secrets.COOKBOOK_DRAFT }}
         run: npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v2
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          COOKBOOK_DRAFT: ${{ secrets.COOKBOOK_DRAFT }}
         with:
           command: npm run test:e2e
           start: npm run start
