@@ -14,7 +14,18 @@ const {
   dummyBlogWithMissingFields,
 } = require("./dummy_test_blogs");
 
-// variable to store test user token in
+let testUserToken;
+beforeAll(async () => {
+  const testUser = {
+    username: "test_user",
+    name: "Test User",
+    password: "test123",
+  };
+
+  await api.post("/api/users").send(testUser);
+  const result = await api.post("/api/login").send(testUser);
+  testUserToken = result.body.token;
+});
 
 // insert blogs to db with test user before each test
 beforeEach(async () => {
@@ -46,20 +57,6 @@ describe("when getting initial bloglist", () => {
 
 // POST blog tests
 describe("when posting a new blog", () => {
-  let testUserToken;
-
-  beforeEach(async () => {
-    const testUser = {
-      username: "test_user",
-      name: "Test User",
-      password: "test123",
-    };
-
-    await api.post("/api/users").send(testUser);
-    const result = await api.post("/api/login").send({ username: "root", password: "lolbur" });
-    testUserToken = result.body.token;
-  });
-
   test("return 401 if no token found on request", async () => {
     await api.post("/api/blogs").send(dummyBlog).expect(401);
   });
@@ -92,34 +89,15 @@ describe("when posting a new blog", () => {
 
 // DELETE test
 describe("when deleting a blog from db", () => {
-  let testUserToken;
   let newblog;
 
   beforeEach(async () => {
-    const testUser = {
-      username: "test_user",
-      name: "Test User",
-      password: "test123",
-    };
-
-    const testBlog = {
-      title: "Great developer experience",
-      author: "Hector Ramos",
-      url: "https://jestjs.io/blog/2017/01/30/a-great-developer-experience",
-      likes: 7,
-    };
-
-    await api.post("/api/users").send(testUser);
-    const result = await api.post("/api/login").send({ username: "root", password: "lolbur" });
-    testUserToken = result.body.token;
-
-    newblog = await api.post("/api/blogs").set("Authorization", `bearer ${testUserToken}`).send(testBlog);
+    newblog = await api.post("/api/blogs").set("Authorization", `bearer ${testUserToken}`).send(dummyBlog);
   });
 
   test("blog is succesfully deleted", async () => {
     // get and id to be deleted
     const blog = newblog.body;
-    // logger.info(blog)
 
     await api.delete(`/api/blogs/${blog.id}`).set("Authorization", `bearer ${testUserToken}`).expect(204);
 
@@ -127,7 +105,6 @@ describe("when deleting a blog from db", () => {
     expect(response.body).toHaveLength(dummyBlogs.length);
 
     const titles = response.body.map((b) => b.title);
-    // logger.info(titles, blog.title)
     expect(titles).not.toContain(blog.title);
   });
 });

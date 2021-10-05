@@ -9,15 +9,15 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "16.x"
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          COOKBOOK_DRAFT: ${{ secrets.COOKBOOK_DRAFT }}
       - name: npm install
         run: npm install
       - name: lint
         run: npm run lint
       - name: npm run test
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          COOKBOOK_DRAFT: ${{ secrets.COOKBOOK_DRAFT }}
         run: npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v2
@@ -43,6 +43,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "stormy-shore-69938"
           heroku_email: jaakko.hurtta@outlook.com
-          healthcheck: "https://agile-thicket-54021.herokuapp.com/health"
+          healthcheck: "https://stormy-shore-69938.herokuapp.com/health"
           delay: 1
           rollbackonhealthcheckfailed: true
