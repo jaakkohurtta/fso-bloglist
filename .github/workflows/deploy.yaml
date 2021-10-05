@@ -17,8 +17,8 @@ jobs:
       - name: npm run test
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+        run: npm run test
         with:
-          command: npm run test
           start: npm run server:test
           wait-on: http://localhost:3002
       - name: e2e tests
