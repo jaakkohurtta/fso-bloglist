@@ -3,11 +3,6 @@ const helper = require("../../server/utils/test_helpers");
 
 const { dummyBlogDatabase, dummyBlogDatabaseShort } = require("./dummy_test_blogs");
 
-test("dummy returns one", () => {
-  const result = helper.dummy(dummyBlogDatabase);
-  expect(result).toBe(1);
-});
-
 // total likes of all blogs in db
 describe("total likes", () => {
   test("of empty list is zero", () => {

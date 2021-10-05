@@ -1,11 +1,6 @@
 const _ = require("lodash");
-const logger = require("./logger");
+// const logger = require("./logger");
 const User = require("../models/user");
-
-const dummy = (blogs) => {
-  logger.info(blogs);
-  return 1;
-};
 
 // Return total likes of all blogs
 const totalLikes = (blogs) => {
@@ -117,7 +112,6 @@ const usersInDb = async () => {
 };
 
 module.exports = {
-  dummy,
   totalLikes,
   favouriteBlog,
   mostBlogs,
