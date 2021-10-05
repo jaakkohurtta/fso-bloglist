@@ -4,7 +4,7 @@ const logger = require("../../server/utils/logger");
 const app = require("../../app");
 const api = supertest(app);
 const Blog = require("../../server/models/blog");
-const User = require("../../server/models/user");
+// const User = require("../../server/models/user");
 
 const {
   dummyBlogs,
@@ -24,23 +24,21 @@ const testUser = {
 
 // create and log in a user for testing purposes
 beforeAll(() => {
-  User.deleteMany({}).then(() => {
-    api
-      .post("/api/users")
-      .send(testUser)
-      .then((res) => {
-        dummyBlogs.forEach((blog) => {
-          blog.userId = res.body.id;
-        });
-        api
-          .post("/api/login")
-          .send({ username: testUser.username, password: testUser.password })
-          .then((res) => {
-            console.log(res.body);
-            testUserToken = res.body.token;
-          });
+  api
+    .post("/api/users")
+    .send(testUser)
+    .then((res) => {
+      dummyBlogs.forEach((blog) => {
+        blog.userId = res.body.id;
       });
-  });
+      api
+        .post("/api/login")
+        .send({ username: "root", password: "lolbur" })
+        .then((res) => {
+          console.log(res.body);
+          testUserToken = res.body.token;
+        });
+    });
 });
 
 //  const newUser = await api.post("/api/users").send(testUser);
