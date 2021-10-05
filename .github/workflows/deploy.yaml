@@ -13,6 +13,8 @@ jobs:
       - name: npm ci
         run: npm ci
       - name: npm run server:test
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
         run: npm run server:test
       - name: lint
         run: npm run lint
