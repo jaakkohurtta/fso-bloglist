@@ -1,7 +1,7 @@
 const config = require("./server/utils/config");
-const path = require("path");
+// const path = require("path");
 const express = require("express");
-const favicon = require("serve-favicon");
+// const favicon = require("serve-favicon");
 require("express-async-errors");
 const app = express();
 const cors = require("cors");
@@ -30,7 +30,7 @@ mongoose
 
 app.use(express.static("build"));
 // eslint-disable-next-line no-undef
-app.use(favicon(path.join(__dirname, "build", "favicon.ico")));
+// app.use(favicon(path.join(__dirname, "build", "favicon.ico")));
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
