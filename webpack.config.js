@@ -1,11 +1,12 @@
-/* eslint-disable no-undef */
 const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 const config = {
   entry: ["regenerator-runtime/runtime.js", "./client/index.js"],
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "index.js",
+    publicPath: "/",
   },
   devServer: {
     static: path.resolve(__dirname, "build"),
@@ -27,11 +28,28 @@ const config = {
         },
       },
       {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader",
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
     ],
   },
+  resolve: {
+    extensions: ["*", ".js", ".jsx"],
+  },
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: "./assets/index.html",
+      filename: "./index.html",
+    }),
+  ],
 };
 
 module.exports = config;
