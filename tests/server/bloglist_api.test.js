@@ -28,10 +28,10 @@ beforeAll(async () => {
   };
 
   const newUser = await api.post("/api/users").send(testUser);
-  // logger.info("newUser", newUser)
 
   const loggedUser = await api.post("/api/login").send({ username: testUser.username, password: testUser.password });
-  // logger.info("loggedUser", loggedUser.body)
+  logger.info("token", loggedUser.body.token);
+  logger.info("id", loggedUser.body.id);
 
   testUserToken = loggedUser.body.token;
 
