@@ -3,7 +3,7 @@ name: Seek and deploy
 on: workflow_dispatch
 
 jobs:
-  build-and-deploy:
+  test-runner:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -12,21 +12,32 @@ jobs:
           node-version: "16.x"
       - name: npm ci
         run: npm ci
+      - name: npm run server:test
+        run: npm run server:test
+        sleep: 6
       - name: lint
         run: npm run lint
       - name: test
         run: npm run test
-      - name: build
-        run: npm run build
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e
           start: npm run start
           wait-on: http://localhost:3001
+          
+  build-and-deploy:
+    needs: test-runner
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - name: build
+        run: npm run build      
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
-        with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "stormy-shore-69938"
           heroku_email: jaakko.hurtta@outlook.com
