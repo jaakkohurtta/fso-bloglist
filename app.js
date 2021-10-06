@@ -49,7 +49,7 @@ app.get("/health", (req, res) => {
 });
 
 app.get("/version", (req, res) => {
-  res.send("v1.0.2");
+  res.send("v1.0.0");
 });
 
 // eslint-disable-next-line no-undef
