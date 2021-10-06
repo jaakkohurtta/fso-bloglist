@@ -64,8 +64,9 @@ const NewBlogForm = ({ togglerRef }) => {
           <Label>url</Label>
           <Input wide {...newBlogUrl.props} />
         </InputGroup>
-        <Label />
-        <Button type="submit">post</Button>
+        <Button marginleft type="submit">
+          post
+        </Button>
       </Form>
     </span>
   );

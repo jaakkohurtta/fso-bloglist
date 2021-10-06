@@ -8,7 +8,7 @@ const Alert = () => {
 
   const alertStyle = {
     backgroundColor: type === "alert" ? "#fffafa" : "#fafffa",
-    border: type === "alert" ? "2px solid #ffcccc" : "2px solid #ccffcc",
+    border: type === "alert" ? "2px solid lightskyblue" : "2px solid lightskyblue",
   };
 
   if (message) {
