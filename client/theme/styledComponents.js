@@ -49,21 +49,24 @@ export const UserInfo = styled.span`
 `;
 
 export const Button = styled.button`
-  background: ${(props) => (props.white ? "white" : "mediumspringgreen")};
+  background: ${(props) => (props.white ? "white" : "lightskyblue")};
   color: ${(props) => (props.white ? "dimgray" : "black")};
   padding: 5px 8px;
-  margin: 1px 1px;
+  margin: ${(props) => (props.marginleft ? "1px 2px 1px 50px " : "1px 2px")};
   border: 1px solid rgba(180, 180, 180, 0.8);
   border-radius: 2px;
   cursor: pointer;
+  @media (max-width: 412px) {
+    margin-left: 2px;
+  }
 `;
 
 export const Input = styled.input`
   padding: 5px;
   margin: 1px 1px;
   width: ${(props) => (props.wide ? "66%" : "99%")};
-  &:focus {
-    background-color: springgreen;
+  @media (max-width: 768px) {
+    width: 85%;
   }
 `;
 
@@ -102,7 +105,7 @@ export const ContentHeader = styled.div`
   align-items: center;
   width: 100%;
   padding: 5px;
-  border-bottom: 1px solid springgreen;
+  border-bottom: 1px solid lightskyblue;
 `;
 
 export const ContentRow = styled.div`
@@ -114,7 +117,7 @@ export const ContentRow = styled.div`
 `;
 
 export const Highlight = styled.span`
-  background-color: springgreen;
+  background-color: lightskyblue;
   border-radius: 5px;
   padding: 0 5px;
 `;
